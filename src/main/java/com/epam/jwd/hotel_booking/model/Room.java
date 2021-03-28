@@ -3,9 +3,12 @@ package com.epam.jwd.hotel_booking.model;
 import com.epam.jwd.hotel_booking.model.enums.RoomSize;
 import com.epam.jwd.hotel_booking.model.enums.RoomType;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Room {
+import static java.math.BigDecimal.ROUND_DOWN;
+
+public class Room implements Comparable<Room> {
     private int id;
     private RoomSize size;
     private RoomType type;
@@ -40,6 +43,17 @@ public class Room {
         this.type = type;
     }
 
+    public String getStringCost(){
+        BigDecimal cost = size.getCostPerDay().multiply(type.getCostFactor())
+                .stripTrailingZeros().setScale(0, ROUND_DOWN);
+        if (cost != BigDecimal.ZERO) {
+            String res = cost.toString();
+            return res.substring(0, res.length() - 2) + "." + res.substring(res.length() - 2);
+        } else {
+            return "0.00";
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,5 +65,14 @@ public class Room {
     @Override
     public int hashCode() {
         return Objects.hash(id, size, type);
+    }
+
+    @Override
+    public int compareTo(Room o) {
+        if (size.compareTo(o.getSize()) == 0) {
+            return type.compareTo(o.getType());
+        } else {
+            return size.compareTo(o.getSize());
+        }
     }
 }

@@ -22,7 +22,9 @@ public enum AdminMenuUsersSelectCommand implements Command {
     };
 
     @Override
+
     public ResponseContext execute(RequestContext req) {
+        req.getSession().removeAttribute(Vars.NAME_INCLUDE.var);
         return ADMIN_MENU_USERS;
     }
 

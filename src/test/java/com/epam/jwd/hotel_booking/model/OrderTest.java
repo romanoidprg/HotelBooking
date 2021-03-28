@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,19 +20,16 @@ public class OrderTest {
 
     @Test
     public void getCost() {
-        List<String> phones = new ArrayList<>();
-        phones.add("28734234");
-        phones.add("83497459");
-        phones.add("89999993");
+        String phone = "28734234";
 
-        User user1 = new User(1L, "aaaa", "11111", false, "andrew", "sharov",
-                "ash@aa.com", phones, LocalDate.of(1981, 03, 12), Sex.MALE, "Russia", "Rostov, weu 76");
-        User user2 = new User(2L, "bbbb", "222222", false, "mike", "petrov",
-                "werh@aa.com", phones, LocalDate.of(1998, 04, 11), Sex.MALE, "Russia", "Rostov, weu 76");
+        Client client1 = new Client(1L, "andrew", "sharov",
+                "ash@aa.com", phone, LocalDate.of(1981, 03, 12), Sex.MALE, "Russia", "Rostov, weu 76");
+        Client client2 = new Client(2L, "mike", "petrov",
+                "werh@aa.com", phone, LocalDate.of(1998, 04, 11), Sex.MALE, "Russia", "Rostov, weu 76");
 
         Room r1 = new Room(1, RoomSize.FAMILY, RoomType.ECONOM);
         Room r2 = new Room(2, RoomSize.FAMILY, RoomType.LUX);
-        Room r3 = new Room(3, RoomSize.ONE_BED, RoomType.STANDART);
+        Room r3 = new Room(3, RoomSize.ONE_BED, RoomType.STANDARD);
         Room r4 = new Room(4, RoomSize.THREE_BED, RoomType.ECONOM);
         Room r5 = new Room(5, RoomSize.TWO_BED, RoomType.LUX);
         List<Room> rooms = new ArrayList<>();
@@ -43,14 +39,14 @@ public class OrderTest {
         rooms.add(r4);
         rooms.add(r5);
 
-        Map<User, FoodPlan> users = new HashMap<>();
-        users.put(user1, FoodPlan.AI);
-        users.put(user2, FoodPlan.BBd);
+        Map<Client, FoodPlan> users = new HashMap<>();
+        users.put(client1, FoodPlan.AI);
+        users.put(client2, FoodPlan.BBd);
 
-        Order order = new Order(1l, users, OrderStatus.ACTIVE,
+        Order request = new Order(1l, users, OrderStatus.ACTIVE,
                 LocalDate.of(2021, 02, 18), LocalDate.of(2021, 02, 20),
-                LocalTime.of(10, 30), LocalTime.of(18, 00), rooms);
+                rooms);
 
-        assertEquals(new BigDecimal("42800"), order.getCost());
+        assertEquals(new BigDecimal("42800"), request.getCost());
     }
 }

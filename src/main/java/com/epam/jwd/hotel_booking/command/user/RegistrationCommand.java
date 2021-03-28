@@ -6,7 +6,7 @@ import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
 import com.epam.jwd.hotel_booking.model.LoginRole;
-import com.epam.jwd.hotel_booking.service.UserService;
+import com.epam.jwd.hotel_booking.service.LoginService;
 
 public enum RegistrationCommand implements Command {
     INSTANCE;
@@ -41,11 +41,10 @@ public enum RegistrationCommand implements Command {
         ResponseContext resp;
         final String login = req.getParametr(Vars.LOGIN.var);
         final String password = req.getParametr(Vars.PASSWORD.var);
-        if (UserService.isLogAndPassCorrect(login, password)) {
-            LoginRole loginRole = UserService.checkLoginRole(login, password);
+        if (LoginService.isLogAndPassCorrect(login, password)) {
+            LoginRole loginRole = LoginService.checkLoginRole(login, password);
 
-            if (loginRole == LoginRole.UNKNOWN) {
-                //todo create new login db
+            if ((loginRole == LoginRole.UNKNOWN) && (LoginService.registerLogin(login, password))) {
                 resp = REGISTRATION_SUCCESS;
             } else {
                 resp = REGISTRATION_NOT_SUCCESS;

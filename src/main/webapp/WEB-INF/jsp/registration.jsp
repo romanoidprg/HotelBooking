@@ -14,7 +14,7 @@
 <h1 align="center">${rb['registration']}</h1>
 
 <form align="center" action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="registration">
+    <input type="hidden" name="command" value="all_registration">
 
     <text align="center">${rb['login']}</text>
     <br>

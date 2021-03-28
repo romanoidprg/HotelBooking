@@ -7,6 +7,7 @@
     <title>HotelBooking</title>
 </head>
 <body>
+<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
 <h1 align="center"> ${rb['hotel_name']} </h1>
@@ -14,7 +15,7 @@
 <h1 align="center">${rb['registration_success']}</h1>
 
 <form align="center" action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="login">
+    <input type="hidden" name="command" value="usr_login">
     <input type="submit" value="${rb['return_to_login']}">
 </form>
 

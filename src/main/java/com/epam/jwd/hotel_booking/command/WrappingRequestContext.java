@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 public class WrappingRequestContext implements RequestContext {
 
@@ -11,6 +12,11 @@ public class WrappingRequestContext implements RequestContext {
 
     private WrappingRequestContext(HttpServletRequest request) {
         this.request = request;
+    }
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        return request.getParameterMap();
     }
 
     @Override
@@ -26,6 +32,11 @@ public class WrappingRequestContext implements RequestContext {
     @Override
     public String getParametr(String parametrName) {
         return request.getParameter(parametrName);
+    }
+
+    @Override
+    public String[] getParametrValues(String parametrName) {
+        return request.getParameterValues(parametrName);
     }
 
     public static RequestContext of(HttpServletRequest request) {

@@ -1,12 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
     <title>My Server Page</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/header.jsp"/>
-<h2 align="center">Страница ЮЗЕРА</h2>
+<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+<c:import url="/WEB-INF/jsp/header.jsp"/>
+
+<h3 align="center">${rb['user_title']}</h3>
+ <c:import url="/WEB-INF/jsp/user/menu_user.jsp"/>
 </body>
 </html>

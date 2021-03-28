@@ -29,9 +29,20 @@ public enum AdminMenuUsersShowAllCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext req) {
         LoginDao loginDao = new LoginDao();
-        Optional<List<Login>> loginList = loginDao.findAll();
+
+        String name_include;
+        if (req.getParameterMap().containsKey(Vars.NAME_INCLUDE.var)) {
+            name_include = req.getParametr(Vars.NAME_INCLUDE.var);
+            req.getSession().setAttribute(Vars.NAME_INCLUDE.var, name_include);
+        } else {
+            name_include = (String) req.getSession().getAttribute(Vars.NAME_INCLUDE.var);
+        }
+
+        Optional<List<Login>> loginList = loginDao.findByPattern(name_include);
+
         if (loginList.isPresent()) {
-        req.setAttribute(Vars.LOGIN_LIST.var,loginList.get());
+            req.setAttribute(Vars.LOGIN_LIST.var, loginList.get());
+            req.setAttribute(Vars.NAME_INCLUDE.var, req.getParametr(Vars.NAME_INCLUDE.var));
         }
         return ADMIN_MENU_USERS;
     }

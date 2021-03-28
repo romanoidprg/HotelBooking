@@ -6,7 +6,6 @@ import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
 import com.epam.jwd.hotel_booking.model.LoginRole;
-import com.epam.jwd.hotel_booking.service.UserService;
 
 public enum EnterIfSessionExistCommand implements Command {
     INSTANCE;

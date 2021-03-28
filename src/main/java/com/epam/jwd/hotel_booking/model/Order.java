@@ -2,14 +2,9 @@ package com.epam.jwd.hotel_booking.model;
 
 import com.epam.jwd.hotel_booking.model.enums.FoodPlan;
 import com.epam.jwd.hotel_booking.model.enums.OrderStatus;
-import com.epam.jwd.hotel_booking.model.enums.RoomSize;
-import com.epam.jwd.hotel_booking.model.enums.RoomType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoPeriod;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,23 +15,30 @@ import static java.math.BigDecimal.ROUND_DOWN;
 
 public class Order {
     private long id;
-    private Map<User, FoodPlan> users = new HashMap<>();
+    private String relatedLogin;
+    private Map<Client, FoodPlan> clients;
     private OrderStatus status;
     private LocalDate dateIn;
     private LocalDate dateOut;
-    private LocalTime timeIn;
-    private LocalTime timeOut;
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms;
 
-    public Order(long id, Map<User, FoodPlan> users, OrderStatus status,
-                 LocalDate dateIn, LocalDate dateOut, LocalTime timeIn, LocalTime timeOut, List<Room> rooms) {
+    public Order() {
+
+        id = -1L;
+        clients = new HashMap<>();
+        status = OrderStatus.AWAITING;
+        dateIn = LocalDate.now();
+        dateOut = LocalDate.now().plusDays(1L);
+        rooms = new ArrayList<>();
+    }
+
+    public Order(long id, Map<Client, FoodPlan> clients, OrderStatus status,
+                 LocalDate dateIn, LocalDate dateOut, List<Room> rooms) {
         this.id = id;
-        this.users = users;
+        this.clients = clients;
         this.status = status;
         this.dateIn = dateIn;
         this.dateOut = dateOut;
-        this.timeIn = timeIn;
-        this.timeOut = timeOut;
         this.rooms = rooms;
     }
 
@@ -48,16 +50,41 @@ public class Order {
         this.id = id;
     }
 
-    public Map<User, FoodPlan> getUsers() {
-        return users;
+    public String getRelatedLogin() {
+        return relatedLogin;
     }
 
-    public void addUserWithFoodPlan(User user, FoodPlan foodPlan) {
-        this.users.put(user, foodPlan);
+    public void setRelatedLogin(String login) {
+        this.relatedLogin = login;
     }
 
-    public void setUserFoodPlan(User user, FoodPlan foodPlan) {
-        //todo
+    public long getDays(){
+        return dateOut.toEpochDay()-dateIn.toEpochDay();
+    }
+
+    public Map<Client, FoodPlan> getClients() {
+        return clients;
+    }
+
+    public int getClientsAmount() {
+        return clients.size();
+    }
+
+    public int getRoomsAmount() {
+        return rooms.size();
+    }
+
+    public void addUserWithFoodPlan(Client client, FoodPlan foodPlan) {
+        this.clients.put(client, foodPlan);
+    }
+
+    public void deleteClient(long clientId) {
+        Client client = clients.entrySet().stream().filter(e -> e.getKey().getId() == clientId).findAny().get().getKey();
+        clients.remove(client);
+    }
+
+    public void setClientFoodPlan(long clientId, FoodPlan foodPlan) {
+        clients.entrySet().stream().filter(e -> e.getKey().getId() == clientId).forEach(e -> e.setValue(foodPlan));
     }
 
     public OrderStatus getStatus() {
@@ -84,41 +111,54 @@ public class Order {
         this.dateOut = dateOut;
     }
 
-    public LocalTime getTimeIn() {
-        return timeIn;
-    }
-
-    public void setTimeIn(LocalTime timeIn) {
-        this.timeIn = timeIn;
-    }
-
-    public LocalTime getTimeOut() {
-        return timeOut;
-    }
-
-    public void setTimeOut(LocalTime timeOut) {
-        this.timeOut = timeOut;
-    }
-
     public List<Room> getRooms() {
         return rooms;
     }
 
     public void addRoom(Room room) {
-        this.rooms.add(room);
+        rooms.add(room);
+        rooms.sort(Room::compareTo);
+    }
+
+    public void deleteRoom(Room roomForDelete) {
+        rooms.remove(roomForDelete);
+    }
+
+    public BigDecimal getCostPerDay(){
+        BigDecimal cost = BigDecimal.ZERO;
+        if (!clients.isEmpty()) {
+            for (FoodPlan fp : clients.values()) {
+                cost = cost.add(fp.getCostPerDay());
+            }
+        }
+        if (!rooms.isEmpty()) {
+            for (Room r : rooms) {
+                cost = cost.add(r.getSize().getCostPerDay().multiply(r.getType().getCostFactor()));
+            }
+        }
+        return cost.stripTrailingZeros().setScale(0, ROUND_DOWN);
     }
 
     public BigDecimal getCost() {
-        BigDecimal cost = BigDecimal.ZERO;
         BigDecimal dayCount = new BigDecimal(ChronoUnit.DAYS.between(dateIn, dateOut));
+        return getCostPerDay().multiply(dayCount).stripTrailingZeros().setScale(0, ROUND_DOWN);
+    }
 
-        for (FoodPlan fp : users.values()) {
-            cost = cost.add(fp.getCostPerDay().multiply(dayCount));
+    public String getStringCost() {
+        if (getCost() != BigDecimal.ZERO) {
+            String res = getCost().toString();
+            return res.substring(0, res.length() - 2) + "." + res.substring(res.length() - 2);
+        } else {
+            return "0.00";
         }
-        for (Room r : rooms) {
-            cost = cost.add(r.getSize().getCostPerDay().multiply(r.getType().getCostFactor()).multiply(dayCount));
+    }
+    public String getStringCostPerDay() {
+        if (getCostPerDay() != BigDecimal.ZERO) {
+            String res = getCostPerDay().toString();
+            return res.substring(0, res.length() - 2) + "." + res.substring(res.length() - 2);
+        } else {
+            return "0.00";
         }
-        return cost.stripTrailingZeros().setScale(0,ROUND_DOWN);
     }
 
 }

@@ -13,7 +13,7 @@
 <br>
 <h4 align="center" color="red"> ${rb['incorrect_login']}</h4>
 <form align="center" action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="login">
+    <input type="hidden" name="command" value="all_login">
 
     <text align="center">${rb['login']}</text>
     <br>
@@ -27,7 +27,7 @@
 </form>
 
 <form align="center" action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="redirect_to_registration">
+    <input type="hidden" name="command" value="all_redirect_to_registration">
     <text align="center">${rb['registration_welcome']}</text>
     <br>
     <input type="submit" value="${rb['register']}">

@@ -32,7 +32,7 @@ public class LoginDaoTest {
         LoginDao loginDao = new LoginDao();
         Optional<Login> login = loginDao.findEntityByName("Romanoid");
 
-        Login loginExp = new Login(4,"Romanoid", "romanoid", true);
+        Login loginExp = new Login(4,"Romanoid", "romanoid", false);
 
         login.ifPresent(log -> assertEquals(loginExp, log));
     }

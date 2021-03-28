@@ -19,6 +19,8 @@ public class LoginDao extends CommonDao<Login> {
 
     private static final String SQL_SELECT_ALL
             = "SELECT logins.*, admins.id AS adm_id FROM logins LEFT JOIN admins ON logins.id=admins.login_id";
+    private static final String SQL_SELECT_PATTERN
+            = "SELECT logins.*, admins.id AS adm_id FROM logins LEFT JOIN admins ON logins.id=admins.login_id WHERE logins.login LIKE ?";
     private static final String SQL_SELECT_BY_NAME
             = SQL_SELECT_ALL + " WHERE login=?";
     private static final String SQL_SELECT_BY_ID
@@ -29,6 +31,12 @@ public class LoginDao extends CommonDao<Login> {
             = "INSERT INTO admins (login_id) VALUES (?)";
     private static final String SQL_DEL_ADMIN_BY_LOGIN_ID
             = "DELETE FROM admins WHERE login_id=?";
+    private static final String SQL_CREATE_LOGIN
+            = "INSERT INTO logins (login, password) VALUES (?, ?)";
+    public static final String SQL_SELECT_BY_CLIENT_ID
+            = "SELECT logins.id, logins.login, logins.password, admins.login_id AS adm_id  " +
+            "FROM (logins_users LEFT JOIN logins on logins_users.login_id=logins.id) " +
+            "left JOIN admins on logins.id=admins.login_id WHERE user_id=?";
 
     private static final String ID_COLUMN_NAME = "id";
     private static final String LOGIN_COLUMN_NAME = "login";
@@ -62,12 +70,44 @@ public class LoginDao extends CommonDao<Login> {
         }
     }
 
+
+    @Override
+    public Optional<List<Login>> findByPattern(String strIncl) {
+        try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
+             PreparedStatement st = cn.prepareStatement(SQL_SELECT_PATTERN);) {
+            st.setString(1, "%" + strIncl + "%");
+            ResultSet rs = st.executeQuery();
+            List<Login> logins = new ArrayList<>();
+            while (rs.next()) {
+                logins.add(readLogin(rs));
+            }
+            return Optional.of(logins);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            return Optional.empty();
+        }
+    }
+
     @Override
     public Optional<Login> findEntityByName(String name) {
         try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
              PreparedStatement st = cn.prepareStatement(SQL_SELECT_BY_NAME);
         ) {
             st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            Login login = rs.next() ? readLogin(rs) : null;
+            rs.close();
+            return Optional.ofNullable(login);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Login> findEntityByClientId(long id) {
+        try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
+             PreparedStatement st = cn.prepareStatement(SQL_SELECT_BY_CLIENT_ID);) {
+            st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             Login login = rs.next() ? readLogin(rs) : null;
             rs.close();
@@ -110,7 +150,19 @@ public class LoginDao extends CommonDao<Login> {
 
     @Override
     public boolean create(Login entity) {
-        return false;
+        try {
+            ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
+            PreparedStatement st = cn.prepareStatement(SQL_CREATE_LOGIN);
+            st.setString(1, entity.getLogin());
+            st.setString(2, entity.getPassword());
+            st.executeUpdate();
+            st.close();
+            cn.close();
+            return true;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            return false;
+        }
     }
 
     @Override

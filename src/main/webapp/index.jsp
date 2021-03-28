@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<jsp:forward page="/controller?command=ENTER_IF_SESSION"/>
+<jsp:forward page="/controller?command=ALL_ENTER_IF_SESSION"/>
 
 </body>
 </html>

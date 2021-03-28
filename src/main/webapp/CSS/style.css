@@ -1,0 +1,51 @@
+#i1 {
+    background-color: SeaShell;
+    font-weight: bold;
+    }
+#s1 {
+    font-weight: bold;
+    }
+#s2 {
+    width: 100%;
+    }
+#f1 {
+    border: solid blue;
+    width: 1000px;
+    margin:auto;
+    }
+#f2 {
+    border: solid blue;
+    width: 900px;
+    margin:auto;
+    }
+#f22 {
+    display: inline;
+    }
+#f3 {
+    width: 900;
+    margin:auto;
+    }
+#t3 {
+    border: solid;
+    width: 600px;
+    }
+#t4 {
+    border: solid;
+    }
+#t5 {
+    border: solid;
+    border-width: thin;
+    }
+
+#p1 {
+    font-weight: bold;
+    }
+#p2 {
+    background-color: coral;
+    }
+#sk{
+    background-color: SeaShell;
+    }
+#db{
+    background-color: SeaShell;
+    }

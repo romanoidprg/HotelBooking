@@ -6,6 +6,7 @@
     <title>My Server Page</title>
 </head>
 <body>
+<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
 <h3 align="center">${rb['admin_title']}</h3>

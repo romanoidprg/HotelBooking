@@ -6,7 +6,8 @@ import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
 import com.epam.jwd.hotel_booking.model.LoginRole;
-import com.epam.jwd.hotel_booking.service.UserService;
+import com.epam.jwd.hotel_booking.service.CountryService;
+import com.epam.jwd.hotel_booking.service.LoginService;
 
 public enum LoginCommand implements Command {
     INSTANCE;
@@ -52,7 +53,7 @@ public enum LoginCommand implements Command {
         ResponseContext resp;
         final String login = req.getParametr(Vars.LOGIN.var);
         final String password = req.getParametr(Vars.PASSWORD.var);
-        LoginRole loginRole = UserService.checkLoginRole(login, password);
+        LoginRole loginRole = LoginService.checkLoginRole(login, password);
         if (loginRole == LoginRole.UNKNOWN) {
             resp = LOGIN_NOT_SUCSESS;
         } else {
@@ -61,6 +62,7 @@ public enum LoginCommand implements Command {
             } else {
                 resp = LOGIN_ADMIN;
             }
+            req.getSession().setAttribute(Vars.COUNTRIES.var, CountryService.getCountriesList());
             req.getSession().setAttribute(Vars.ROLE.var, loginRole);
             req.getSession().setAttribute(Vars.LOGIN.var, login);
         }

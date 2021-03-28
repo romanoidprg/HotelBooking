@@ -7,11 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+public class LoginService {
+    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 
     public static LoginRole checkLoginRole(String tryLogin, String tryPassword) {
         LoginDao loginDao = new LoginDao();
@@ -43,5 +41,11 @@ public class UserService {
             return false;
         }
 
+    }
+
+    public static boolean registerLogin(String login, String password){
+        Login loginEntity = new Login(0L, login, password,false);
+        LoginDao loginDao = new LoginDao();
+        return loginDao.create(loginEntity);
     }
 }
