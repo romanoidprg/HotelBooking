@@ -3,3 +3,5 @@ MySQLWB
 Taaskinfo
 # Project exclude paths
 /target/
+/TaskInfo
+ToDo
