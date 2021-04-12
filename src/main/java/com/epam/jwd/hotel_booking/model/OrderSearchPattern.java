@@ -1,7 +1,5 @@
 package com.epam.jwd.hotel_booking.model;
 
-import com.epam.jwd.hotel_booking.model.enums.OrderStatus;
-
 import java.sql.Date;
 import java.time.LocalDate;
 

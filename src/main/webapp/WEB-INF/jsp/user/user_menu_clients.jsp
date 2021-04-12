@@ -24,8 +24,16 @@
 </style>
 
 <body>
-<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
-<c:import url="/WEB-INF/jsp/header.jsp"/>
+<table style="width: 100%;border-bottom: 1px solid;">
+    <tr>
+        <td align="left">
+            <c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+        </td>
+        <td align="right">
+            <c:import url="/WEB-INF/jsp/header.jsp"/>
+        </td>
+    </tr>
+</table>
 
 <h3 align="center">${rb['user_title']}</h3>
 <div>

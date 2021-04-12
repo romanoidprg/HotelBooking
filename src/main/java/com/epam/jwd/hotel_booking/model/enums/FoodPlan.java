@@ -2,6 +2,8 @@ package com.epam.jwd.hotel_booking.model.enums;
 
 import com.epam.jwd.hotel_booking.connections.ConnectionPool;
 import com.epam.jwd.hotel_booking.connections.ProxyConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -19,6 +21,7 @@ public enum FoodPlan {
     BBd(true, false, false, true),
     NONE(false, false, false, false);
 
+    private final static Logger logger = LogManager.getLogger(RoomType.class);
 
     static {
         String SELECT_COST = "SELECT cost_per_day FROM food_plans WHERE plan=?";
@@ -32,6 +35,8 @@ public enum FoodPlan {
                     plan.costPerDay = rs.getBigDecimal(1);
                 }
             }
+            logger.info("Food planes received successful.");
+
         } catch (SQLException e) {
             AI.costPerDay = new BigDecimal("1000000");
             FB.costPerDay = new BigDecimal("1000000");
@@ -40,7 +45,7 @@ public enum FoodPlan {
             BB.costPerDay = new BigDecimal("1000000");
             BBd.costPerDay = new BigDecimal("1000000");
             NONE.costPerDay = new BigDecimal("1000000");
-//            logger.error(e.getMessage());
+            logger.error(e.getMessage());
 
         }
     }
@@ -95,6 +100,6 @@ public enum FoodPlan {
     }
 
     public String getStringCostPerDay() {
-       return costPerDay.divide(BigDecimal.valueOf(100)).toPlainString();
+        return costPerDay.divide(BigDecimal.valueOf(100)).toPlainString();
     }
 }

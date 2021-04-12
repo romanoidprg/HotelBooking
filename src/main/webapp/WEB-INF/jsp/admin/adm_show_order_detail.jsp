@@ -29,7 +29,15 @@
 </head>
 
 <body>
-<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+<table style="width: 100%;border-bottom: 1px solid;">
+    <tr>
+        <td align="left">
+            <c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+        </td>
+        <td align="right">
+        </td>
+    </tr>
+</table>
 
 <h3 align="center">${rb['admin_title']}</h3>
 <div>

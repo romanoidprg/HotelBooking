@@ -47,10 +47,12 @@ public class LoginDao extends CommonDao<Login> {
 
 
     private Login readLogin(ResultSet rs) throws SQLException {
-        return new Login(rs.getLong(ID_COLUMN_NAME),
+        Login login =  new Login(rs.getLong(ID_COLUMN_NAME),
                 rs.getString(LOGIN_COLUMN_NAME),
-                rs.getString(PASSWORD_COLUMN_NAME),
+                "",
                 rs.getBoolean(ADM_ID_COLUMN_NAME));
+        login.setPasswordWithoutHashing(rs.getString(PASSWORD_COLUMN_NAME));
+        return login;
 
     }
 
@@ -140,11 +142,6 @@ public class LoginDao extends CommonDao<Login> {
 
     @Override
     public boolean delete(long id) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Login entity) {
         return false;
     }
 

@@ -5,6 +5,7 @@ import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
+import com.epam.jwd.hotel_booking.dao.DaoFactory;
 import com.epam.jwd.hotel_booking.dao.impl.OrderDao;
 import com.epam.jwd.hotel_booking.model.Order;
 import com.epam.jwd.hotel_booking.model.enums.OrderStatus;
@@ -13,6 +14,8 @@ import java.util.List;
 
 public enum ActivateConfirmedOrderCommand implements Command {
     INSTANCE;
+
+    DaoFactory daoFactory = new DaoFactory();
 
     private static final ResponseContext ACTIVATE_ORDER = new ResponseContext() {
         @Override
@@ -28,12 +31,10 @@ public enum ActivateConfirmedOrderCommand implements Command {
 
     @Override
     public ResponseContext execute(RequestContext req) {
+        OrderDao orderDao = daoFactory.getDao(OrderDao.class);
 
         long orderId = Long.parseLong(req.getParametr(Vars.ORDER_ID.var));
-
-        OrderDao orderDao = new OrderDao();
-
-        if (orderDao.setStatus(orderId, OrderStatus.ACTIVE)) {
+        if ((orderDao != null) && orderDao.setStatus(orderId, OrderStatus.ACTIVE)) {
             List<Order> orderList = (List<Order>) req.getSession().getAttribute(Vars.ORDER_LIST.var);
 
             orderList.stream().filter(o -> o.getId() == orderId).findFirst().get().setStatus(OrderStatus.ACTIVE);
@@ -46,4 +47,7 @@ public enum ActivateConfirmedOrderCommand implements Command {
         return ACTIVATE_ORDER;
     }
 
+    public void setDaoFactory(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 }

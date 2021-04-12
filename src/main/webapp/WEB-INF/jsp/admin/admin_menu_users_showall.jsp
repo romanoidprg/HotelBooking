@@ -51,7 +51,15 @@ font-weight: bold;
 </style>
 
 <body>
-<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+<table style="width: 100%;border-bottom: 1px solid;">
+    <tr>
+        <td align="left">
+            <c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+        </td>
+        <td align="right">
+        </td>
+    </tr>
+</table>
 
 <h3 align="center">${rb['admin_title']}</h3>
 
@@ -66,7 +74,6 @@ font-weight: bold;
     <tr id="s1">
         <td> ${rb['id']}</td>
         <td>| ${rb['login']}</td>
-        <td>| ${rb['password']}</td>
         <td>| ${rb['isadmin']}</td>
         <td>|</td>
         <td>${rb['change_role']} |</td>
@@ -84,9 +91,7 @@ font-weight: bold;
             <td>|
                 ${ login.login }
             </td>
-            <td>|
-                ${ login.password }
-            </td>
+
             <td>|
                 ${ login.admin }
             </td>

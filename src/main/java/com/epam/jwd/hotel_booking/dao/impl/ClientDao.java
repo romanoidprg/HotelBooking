@@ -3,7 +3,6 @@ package com.epam.jwd.hotel_booking.dao.impl;
 import com.epam.jwd.hotel_booking.connections.ConnectionPool;
 import com.epam.jwd.hotel_booking.connections.ProxyConnection;
 import com.epam.jwd.hotel_booking.dao.CommonDao;
-import com.epam.jwd.hotel_booking.exceptions.NoClientFoundException;
 import com.epam.jwd.hotel_booking.model.Client;
 import com.epam.jwd.hotel_booking.model.ClientSearchPattern;
 import com.epam.jwd.hotel_booking.model.Login;
@@ -28,12 +27,6 @@ public class  ClientDao extends CommonDao<Client> {
             = "INSERT INTO users (name, sname, email, phone, bday, sex, country_id, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_CREATE_LINK_TO_LOGIN
             = "INSERT INTO logins_users (login_id, user_id) VALUES (?, ?)";
-    public static final String SQL_SELECT_CLIENT
-            = "SELECT users.id, users.name, users.sname, users.email, " +
-            "users.phone, users.bday, users.sex, countries.name AS country, users.address " +
-            "FROM users, countries WHERE users.name=? AND users.sname=? AND users.bday=? " +
-            "AND users.country_id=? AND users.address=? " +
-            "AND users.country_id=countries.id";
     public static final String SQL_SELECT_ALL_LINKED_TO_LOGIN_NAME
             = "SELECT users.id, users.name, users.sname, users.email, users.phone, " +
             "users.bday, users.sex, countries.name AS country, users.address " +
@@ -44,10 +37,6 @@ public class  ClientDao extends CommonDao<Client> {
             = "DELETE FROM logins_users WHERE user_id=?";
     public static final String SQL_DELETE_CLIENT_BY_ID_2
             = "DELETE FROM users WHERE id=?";
-    private static final String SQL_START_TRANSACTION
-            = "START TRANSACTION";
-    private static final String SQL_COMMIT_TRANSACTION
-            = "COMMIT";
     private static final String SQL_SELECT_FOODPLAN_BY_CLIENT_ID_AND_ORDER_ID
             = "SELECT food_plans.plan FROM users_orders LEFT JOIN food_plans " +
             "ON (food_plans.id=users_orders.food_plan_id) WHERE user_id=? AND order_id=?";
@@ -184,31 +173,6 @@ public class  ClientDao extends CommonDao<Client> {
         return Optional.empty();
     }
 
-    public long getClientId(Client entity) throws NoClientFoundException {
-        long id = -1L;
-        try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
-             PreparedStatement st = cn.prepareStatement(SQL_SELECT_CLIENT)) {
-            st.setString(1, entity.getName());
-            st.setString(2, entity.getsName());
-            st.setDate(3, Date.valueOf(entity.getBirthDay().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-            st.setInt(4, CountryService.getCountryId(entity.getCountry()));
-            st.setString(5, entity.getAddress());
-            ResultSet rs = st.executeQuery();
-            Client client = rs.next() ? readClient(rs) : null;
-            rs.close();
-            if (client != null) {
-                id = client.getId();
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
-        if (id != -1L) {
-            return id;
-        } else {
-            throw new NoClientFoundException(entity);
-        }
-    }
-
     @Override
     public Optional<Client> findEntityById(long id) {
         try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
@@ -242,12 +206,6 @@ public class  ClientDao extends CommonDao<Client> {
             return false;
         }
     }
-
-    @Override
-    public boolean delete(Client entity) {
-        return false;
-    }
-
 
     public boolean create(Client entity) {
         try {

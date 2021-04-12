@@ -1,4 +1,4 @@
-package com.epam.jwd.hotel_booking.command.page;
+package com.epam.jwd.hotel_booking.command.all;
 
 import com.epam.jwd.hotel_booking.command.Command;
 import com.epam.jwd.hotel_booking.command.Pages;

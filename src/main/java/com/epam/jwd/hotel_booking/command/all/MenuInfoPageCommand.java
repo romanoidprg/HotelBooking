@@ -1,4 +1,4 @@
-package com.epam.jwd.hotel_booking.command.user;
+package com.epam.jwd.hotel_booking.command.all;
 
 import com.epam.jwd.hotel_booking.command.Command;
 import com.epam.jwd.hotel_booking.command.Pages;
@@ -44,11 +44,19 @@ public enum MenuInfoPageCommand implements Command {
 
     @Override
     public ResponseContext execute(RequestContext req) {
-        req.setAttribute(Vars.ROOM_SIZES.var, RoomSize.values());
-        req.setAttribute(Vars.ROOM_TYPES.var, RoomType.values());
-        req.setAttribute(Vars.FOOD_PLANS.var, FoodPlan.values());
-        req.setAttribute(Vars.STATUSES.var, OrderStatus.values());
-        
+        if (req.getSession().getAttribute(Vars.ROOM_SIZES.var) == null) {
+            req.getSession().setAttribute(Vars.ROOM_SIZES.var, RoomSize.values());
+        }
+        if (req.getSession().getAttribute(Vars.ROOM_TYPES.var) == null) {
+            req.getSession().setAttribute(Vars.ROOM_TYPES.var, RoomType.values());
+        }
+        if (req.getSession().getAttribute(Vars.FOOD_PLANS.var) == null) {
+            req.getSession().setAttribute(Vars.FOOD_PLANS.var, FoodPlan.values());
+        }
+        if (req.getSession().getAttribute(Vars.STATUSES.var) == null) {
+            req.getSession().setAttribute(Vars.STATUSES.var, OrderStatus.values());
+        }
+
         if (LoginRole.ADMIN.equals(req.getSession().getAttribute(Vars.ROLE.var))) {
             return ADMIN_MENU_INFO_PAGE;
         } else {

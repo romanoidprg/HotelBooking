@@ -1,5 +1,8 @@
 package com.epam.jwd.hotel_booking.model;
 
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.Objects;
 
 public class Login {
@@ -12,9 +15,18 @@ public class Login {
     public Login(long id, String login, String password, boolean isAdmin) {
         this.id = id;
         this.login = login;
-        this.password = password;
+        this.password = hashPassword(password);
         this.isAdmin = isAdmin;
         this.admin = isAdmin ? "true" : "false";
+    }
+
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+    }
+
+    public boolean hasLoginAndPassword(String login, String password){
+        return (this.login.equals(login) && BCrypt.checkpw(password, this.password));
     }
 
     public long getId() {
@@ -36,8 +48,7 @@ public class Login {
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
+    public void setPasswordWithoutHashing(String password) {
         this.password = password;
     }
 

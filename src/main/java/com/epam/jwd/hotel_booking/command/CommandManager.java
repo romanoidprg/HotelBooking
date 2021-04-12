@@ -12,7 +12,8 @@ import com.epam.jwd.hotel_booking.command.admin.SetLoginRoleCommand;
 import com.epam.jwd.hotel_booking.command.admin.ShowClientsRelatedToLoginCommand;
 import com.epam.jwd.hotel_booking.command.admin.ShowOrdersByFilterCommand;
 import com.epam.jwd.hotel_booking.command.admin.ShowOrdersRelatedToClientCommand;
-import com.epam.jwd.hotel_booking.command.page.LangSelectCommand;
+import com.epam.jwd.hotel_booking.command.all.LangSelectCommand;
+import com.epam.jwd.hotel_booking.command.all.RedirectToCommand;
 import com.epam.jwd.hotel_booking.command.user.AddClientsToOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.AddRoomToOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.DeleteClientCommand;
@@ -21,9 +22,9 @@ import com.epam.jwd.hotel_booking.command.user.DeleteRoomFromOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.EnterIfSessionExistCommand;
 import com.epam.jwd.hotel_booking.command.user.GoToAddClientToOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.GoToOrderPrepareCommand;
-import com.epam.jwd.hotel_booking.command.user.LoginCommand;
-import com.epam.jwd.hotel_booking.command.user.LogoutCommand;
-import com.epam.jwd.hotel_booking.command.user.MenuInfoPageCommand;
+import com.epam.jwd.hotel_booking.command.all.LoginCommand;
+import com.epam.jwd.hotel_booking.command.all.LogoutCommand;
+import com.epam.jwd.hotel_booking.command.all.MenuInfoPageCommand;
 import com.epam.jwd.hotel_booking.command.user.RedirectToRegistrationCommand;
 import com.epam.jwd.hotel_booking.command.user.RegistrationCommand;
 import com.epam.jwd.hotel_booking.command.user.SendOrderForSubmitCommand;
@@ -50,6 +51,7 @@ public enum CommandManager {
     ALL_SHOW_ORDERS_RELATED_TO_LOGIN(ShowOrdersRelatedToLoginCommand.INSTANCE),
     ALL_SHOW_ORDER_DETAIL(ShowOrderDetailCommand.INSTANCE),
     ALL_MENU_INFO(MenuInfoPageCommand.INSTANCE),
+    ALL_REDIRECT_TO(RedirectToCommand.INSTANCE),
 
     ADM_ADMIN_MENU_CLIENTS_SHOWFILTER(AdminMenuClientsShowFilterCommand.INSTANCE),
     ADM_SET_LOGIN_ROLE(SetLoginRoleCommand.INSTANCE),

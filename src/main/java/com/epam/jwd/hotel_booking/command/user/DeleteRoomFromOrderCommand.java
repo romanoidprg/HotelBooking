@@ -1,6 +1,8 @@
 package com.epam.jwd.hotel_booking.command.user;
 
 import com.epam.jwd.hotel_booking.command.Command;
+import com.epam.jwd.hotel_booking.command.CommandManager;
+import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
@@ -11,6 +13,18 @@ import com.epam.jwd.hotel_booking.model.enums.RoomType;
 
 public enum DeleteRoomFromOrderCommand implements Command {
     INSTANCE;
+    private static final ResponseContext REDIRECT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return Pages.REDIRECT.page;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return true;
+        }
+    };
+
 
     @Override
     public ResponseContext execute(RequestContext req) {
@@ -21,7 +35,9 @@ public enum DeleteRoomFromOrderCommand implements Command {
         Room room_for_delete = new Room(id, size, type);
         order.deleteRoom(room_for_delete);
         req.getSession().setAttribute(Vars.ORDER.var, order);
-        return GoToOrderPrepareCommand.INSTANCE.execute(req);
+
+        req.getSession().setAttribute(Vars.REDIRECT_COMMAND.var, CommandManager.USR_GOTO_PREPARE_ORDER);
+        return REDIRECT;
     }
 
 }

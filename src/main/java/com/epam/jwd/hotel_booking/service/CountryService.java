@@ -1,24 +1,16 @@
 package com.epam.jwd.hotel_booking.service;
 
 import com.epam.jwd.hotel_booking.dao.impl.CountryDao;
-import com.epam.jwd.hotel_booking.dao.impl.LoginDao;
 import com.epam.jwd.hotel_booking.model.Country;
-import com.epam.jwd.hotel_booking.model.Login;
-import com.epam.jwd.hotel_booking.model.LoginRole;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CountryService {
-    private static final Logger logger = LoggerFactory.getLogger(CountryService.class);
-
-
+    private static CountryDao countryDao = new CountryDao();
 
     public static List<Country> getCountriesList() {
-        CountryDao countryDao = new CountryDao();
         Optional<List<Country>> optionalCountryList = countryDao.findAll();
         if (optionalCountryList.isPresent()) {
             return optionalCountryList.get();
@@ -31,8 +23,7 @@ public class CountryService {
 
     }
 
-    public static int getCountryId(String countryName){
-        CountryDao countryDao = new CountryDao();
+    public static int getCountryId(String countryName) {
         return countryDao.findEntityByName(countryName).map(Country::getId).orElse(-1);
     }
 

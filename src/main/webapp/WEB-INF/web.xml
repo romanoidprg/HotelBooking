@@ -16,4 +16,8 @@
     <error-code>590</error-code>
     <location>/WEB-INF/jsp/errors/error500.jsp</location>
   </error-page>
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>${sys:catalina.home}/webapps/HotelBooking-1.0/WEB-INF/log4j2.xml</param-value>
+  </context-param>
 </web-app>

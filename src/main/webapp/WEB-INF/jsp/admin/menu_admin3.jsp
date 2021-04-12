@@ -6,8 +6,6 @@
 </head>
 
 <body>
-<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
-
 <table style="border-style: solid; width: 1000px; height: 25px; margin:auto;">
     <tr>
         <td align="center" style="width: 33%;">

@@ -5,11 +5,14 @@ import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
+import com.epam.jwd.hotel_booking.dao.DaoFactory;
 import com.epam.jwd.hotel_booking.model.LoginRole;
 import com.epam.jwd.hotel_booking.service.LoginService;
+import sun.rmi.runtime.Log;
 
 public enum RegistrationCommand implements Command {
     INSTANCE;
+    private final LoginService loginService = new LoginService(new DaoFactory());
 
     private static final ResponseContext REGISTRATION_SUCCESS = new ResponseContext() {
         @Override
@@ -42,9 +45,9 @@ public enum RegistrationCommand implements Command {
         final String login = req.getParametr(Vars.LOGIN.var);
         final String password = req.getParametr(Vars.PASSWORD.var);
         if (LoginService.isLogAndPassCorrect(login, password)) {
-            LoginRole loginRole = LoginService.checkLoginRole(login, password);
+            LoginRole loginRole = loginService.checkLoginRole(login, password);
 
-            if ((loginRole == LoginRole.UNKNOWN) && (LoginService.registerLogin(login, password))) {
+            if ((loginRole == LoginRole.UNKNOWN) && (loginService.registerLogin(login, password))) {
                 resp = REGISTRATION_SUCCESS;
             } else {
                 resp = REGISTRATION_NOT_SUCCESS;

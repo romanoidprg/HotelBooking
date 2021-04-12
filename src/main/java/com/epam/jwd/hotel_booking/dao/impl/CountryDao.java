@@ -50,24 +50,6 @@ public class CountryDao extends CommonDao<Country> {
 
 
     @Override
-    public Optional<List<Country>> findByPattern(String strIncl) {
-//        try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
-//             PreparedStatement st = cn.prepareStatement(SQL_SELECT_PATTERN);) {
-//            st.setString(1, "%" + strIncl + "%");
-//            ResultSet rs = st.executeQuery();
-//            List<Login> logins = new ArrayList<>();
-//            while (rs.next()) {
-//                logins.add(readLogin(rs));
-//            }
-//            return Optional.of(logins);
-//        } catch (SQLException e) {
-//            logger.error(e.getMessage());
-//            return Optional.empty();
-//        }
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<Country> findEntityByName(String name) {
         try (ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
              PreparedStatement st = cn.prepareStatement(SQL_SELECT_BY_NAME);
@@ -85,22 +67,11 @@ public class CountryDao extends CommonDao<Country> {
 
     @Override
     public Optional<Country> findEntityById(long id) {
-//        try {
-//            ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
-//            PreparedStatement st = cn.prepareStatement(SQL_SELECT_BY_ID);
-//            st.setString(1, String.valueOf(id));
-//            ResultSet rs = st.executeQuery();
-//            rs.next();
-//            Login login = readLogin(rs);
-//
-//            rs.close();
-//            st.close();
-//            cn.close();
-//            return Optional.ofNullable(login);
-//        } catch (SQLException e) {
-//            logger.error(e.getMessage());
-//            return Optional.empty();
-//        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<Country>> findByPattern(String strIncl) {
         return Optional.empty();
     }
 
@@ -110,49 +81,12 @@ public class CountryDao extends CommonDao<Country> {
     }
 
     @Override
-    public boolean delete(Country entity) {
-        return false;
-    }
-
-    @Override
     public boolean create(Country entity) {
-//        try {
-//            ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
-//            PreparedStatement st = cn.prepareStatement(SQL_CREATE_LOGIN);
-//            st.setString(1, entity.getLogin());
-//            st.setString(2, entity.getPassword());
-//            st.executeUpdate();
-//            st.close();
-//            cn.close();
-//            return true;
-//        } catch (SQLException e) {
-//            logger.error(e.getMessage());
-//            return false;
-//        }
         return false;
     }
 
     @Override
     public Optional<Country> update(Country entity) {
-//        try {
-//            ProxyConnection cn = (ProxyConnection) ConnectionPool.INSTANCE.retrieveConnection();
-//            PreparedStatement st = cn.prepareStatement(SQL_UPDATE_LOGINS_BY_ID);
-//            st.setString(1, entity.getLogin());
-//            st.setString(2, entity.getPassword());
-//            st.setLong(3, entity.getId());
-//            st.executeUpdate();
-//
-//            st = entity.isAdmin() ? cn.prepareStatement(SQL_ADD_ADMIN_BY_LOGIN_ID)
-//                    : cn.prepareStatement(SQL_DEL_ADMIN_BY_LOGIN_ID);
-//            st.setLong(1, entity.getId());
-//            st.executeUpdate();
-//            st.close();
-//            cn.close();
-//            return Optional.of(entity);
-//        } catch (SQLException e) {
-//            logger.error(e.getMessage());
-//            return Optional.empty();
-//        }
         return Optional.empty();
     }
 }

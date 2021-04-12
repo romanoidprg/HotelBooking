@@ -1,7 +1,5 @@
 package com.epam.jwd.hotel_booking.dao;
 
-import com.epam.jwd.hotel_booking.model.Login;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +13,6 @@ public abstract class CommonDao<T extends Object> {
     public abstract Optional<T> findEntityByName(String name);
 
     public abstract boolean delete(long id);
-
-    public abstract boolean delete(T entity);
 
     public abstract boolean create(T entity);
 

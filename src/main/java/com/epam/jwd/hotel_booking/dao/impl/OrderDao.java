@@ -18,7 +18,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,11 +96,6 @@ public class OrderDao extends CommonDao<Order> {
 
     @Override
     public boolean delete(long id) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Order entity) {
         return false;
     }
 

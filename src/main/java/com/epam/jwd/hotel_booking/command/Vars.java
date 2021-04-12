@@ -63,6 +63,8 @@ public enum Vars {
     ORDER_STATUS("order_status"),
     LOGIN_INCLUDE("login_include"),
     LAST_COMMAND_BEFORE_ORDERS_SHOW("last_command_before_orders_show"),
+    REDIRECT_COMMAND("redirect_command"),
+    PAGE_TO_REDIRECT("page_to_redirect"),
     ROOMS_ID("rooms_id");
 
 

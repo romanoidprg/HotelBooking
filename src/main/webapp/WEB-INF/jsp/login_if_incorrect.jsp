@@ -21,6 +21,8 @@
     <br>
     <text align="center">${rb['password']}</text>
     <br>
+    <text align="center">${rb['password_req']}</text>
+    <br>
     <input type="password" name="password">
     <br>
     <input type="submit" value="${rb['submit']}">

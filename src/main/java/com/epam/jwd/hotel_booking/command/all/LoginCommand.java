@@ -1,16 +1,18 @@
-package com.epam.jwd.hotel_booking.command.user;
+package com.epam.jwd.hotel_booking.command.all;
 
 import com.epam.jwd.hotel_booking.command.Command;
 import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
+import com.epam.jwd.hotel_booking.dao.DaoFactory;
 import com.epam.jwd.hotel_booking.model.LoginRole;
 import com.epam.jwd.hotel_booking.service.CountryService;
 import com.epam.jwd.hotel_booking.service.LoginService;
 
 public enum LoginCommand implements Command {
     INSTANCE;
+    private final LoginService loginService = new LoginService(new DaoFactory());
 
     private static final ResponseContext LOGIN_ADMIN = new ResponseContext() {
         @Override
@@ -53,7 +55,7 @@ public enum LoginCommand implements Command {
         ResponseContext resp;
         final String login = req.getParametr(Vars.LOGIN.var);
         final String password = req.getParametr(Vars.PASSWORD.var);
-        LoginRole loginRole = LoginService.checkLoginRole(login, password);
+        LoginRole loginRole = loginService.checkLoginRole(login, password);
         if (loginRole == LoginRole.UNKNOWN) {
             resp = LOGIN_NOT_SUCSESS;
         } else {

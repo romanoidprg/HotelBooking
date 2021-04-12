@@ -1,16 +1,16 @@
-package com.epam.jwd.hotel_booking.command.admin;
+package com.epam.jwd.hotel_booking.command.all;
 
 import com.epam.jwd.hotel_booking.command.Command;
+import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 
-public enum AddCountryCommand implements Command {
+public enum LogoutCommand implements Command {
     INSTANCE;
-
-    private static final ResponseContext LOGIN = new ResponseContext() {
+    private static final ResponseContext LOGOUT = new ResponseContext() {
         @Override
         public String getPage() {
-            return "WEB-INF/jsp/login.jsp";
+            return Pages.INDEX.page;
         }
 
         @Override
@@ -19,9 +19,10 @@ public enum AddCountryCommand implements Command {
         }
     };
 
+
     @Override
     public ResponseContext execute(RequestContext req) {
-        return LOGIN;
+        req.getSession().invalidate();
+        return LOGOUT;
     }
-
 }

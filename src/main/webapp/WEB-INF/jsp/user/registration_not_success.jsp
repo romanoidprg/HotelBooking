@@ -7,8 +7,15 @@
     <title>HotelBooking</title>
 </head>
 <body>
-<c:import url="/WEB-INF/jsp/header_logout.jsp"/>
-<c:import url="/WEB-INF/jsp/header.jsp"/>
+<table style="width: 100%;border-bottom: 1px solid;">
+    <tr>
+        <td align="left">
+            <c:import url="/WEB-INF/jsp/header_logout.jsp"/>
+        </td>
+        <td align="right">
+        </td>
+    </tr>
+</table>
 
 <h1 align="center"> ${rb['hotel_name']} </h1>
 <br>

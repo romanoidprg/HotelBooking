@@ -5,6 +5,7 @@ import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
+import com.epam.jwd.hotel_booking.dao.DaoFactory;
 import com.epam.jwd.hotel_booking.dao.impl.ClientDao;
 import com.epam.jwd.hotel_booking.dao.impl.LoginDao;
 import com.epam.jwd.hotel_booking.model.Client;
@@ -23,6 +24,8 @@ import java.util.Optional;
 
 public enum AdminMenuClientsShowFilterCommand implements Command {
     INSTANCE;
+
+    private  DaoFactory daoFactory = new DaoFactory();
 
     private static final ResponseContext ADMIN_MENU_CLIENTS = new ResponseContext() {
         @Override
@@ -59,14 +62,14 @@ public enum AdminMenuClientsShowFilterCommand implements Command {
             req.getSession().setAttribute(Vars.CLIENT_SEARCH_PATTERN.var, clientSearchPattern);
 
 
-            Optional<List<Client>> clientList = new ClientDao().findByClientPattern(clientSearchPattern);
+            Optional<List<Client>> clientList = daoFactory.getDao(ClientDao.class).findByClientPattern(clientSearchPattern);
 
             if (clientList.isPresent()) {
                 clientList.get().sort(ClientComparator.byId());
 
                 LinkedHashMap<Client, String> clientMap = new LinkedHashMap<>();
                 String loginName;
-                LoginDao loginDao = new LoginDao();
+                LoginDao loginDao = daoFactory.getDao(LoginDao.class);
                 for (Client client : clientList.get()) {
                     loginName = loginDao.findEntityByClientId(client.getId()).get().getLogin();
                     clientMap.put(client, loginName);
@@ -75,6 +78,10 @@ public enum AdminMenuClientsShowFilterCommand implements Command {
             }
         }
         return ADMIN_MENU_CLIENTS;
+    }
+
+    public void setDaoFactory(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
 }

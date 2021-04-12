@@ -2,6 +2,8 @@ package com.epam.jwd.hotel_booking.model.enums;
 
 import com.epam.jwd.hotel_booking.connections.ConnectionPool;
 import com.epam.jwd.hotel_booking.connections.ProxyConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -12,6 +14,8 @@ public enum RoomType {
     ECONOM(false,true,false,false),
     STANDARD(true,true,false,false),
     LUX(true, true,true,true);
+
+    private final static Logger logger = LogManager.getLogger(RoomType.class);
 
     static {
         String SELECT_COST = "SELECT cost_factor FROM room_types WHERE type=?";
@@ -25,11 +29,12 @@ public enum RoomType {
                     type.costFactor = rs.getBigDecimal(1);
                 }
             }
+            logger.info("Room types received successful.");
         } catch (SQLException e) {
             ECONOM.costFactor = new BigDecimal("100");
             STANDARD.costFactor = new BigDecimal("200");
             LUX.costFactor = new BigDecimal("300");
-//            logger.error(e.getMessage());
+            logger.error(e.getMessage());
 
         }
     }

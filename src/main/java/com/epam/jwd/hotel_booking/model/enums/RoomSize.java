@@ -2,6 +2,8 @@ package com.epam.jwd.hotel_booking.model.enums;
 
 import com.epam.jwd.hotel_booking.connections.ConnectionPool;
 import com.epam.jwd.hotel_booking.connections.ProxyConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ public enum RoomSize {
     TWO_BED,
     THREE_BED,
     FAMILY;
+
+    private final static Logger logger = LogManager.getLogger(RoomType.class);
 
     static {
         String SELECT_COST = "SELECT cost_per_day, place_col FROM room_sizes WHERE size=?";
@@ -30,11 +34,12 @@ public enum RoomSize {
                 }
             }
         } catch (SQLException e) {
+            logger.info("Room sizes received successful.");
             ONE_BED.costPerDay = new BigDecimal("10000000");
             TWO_BED.costPerDay = new BigDecimal("20000000");
             THREE_BED.costPerDay = new BigDecimal("30000000");
             FAMILY.costPerDay = new BigDecimal("40000000");
-//            logger.error(e.getMessage());
+            logger.error(e.getMessage());
 
         }
     }

@@ -4,13 +4,12 @@ import com.epam.jwd.hotel_booking.connections.ConnectionPool;
 import com.epam.jwd.hotel_booking.connections.ProxyConnection;
 import com.epam.jwd.hotel_booking.dao.CommonDao;
 import com.epam.jwd.hotel_booking.dao.EnumDao;
-import com.epam.jwd.hotel_booking.model.Client;
 import com.epam.jwd.hotel_booking.model.Room;
 import com.epam.jwd.hotel_booking.model.enums.OrderStatus;
 import com.epam.jwd.hotel_booking.model.enums.RoomSize;
 import com.epam.jwd.hotel_booking.model.enums.RoomType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -40,7 +39,7 @@ public class RoomDao extends CommonDao<Room> {
             "GROUP BY room_id) " +
             "AND rooms.id>0 AND rooms.size_id=room_sizes.id AND rooms.type_id=room_types.id ORDER BY rooms.id";
     public static final String SQL_SELECT_BY_ID
-            ="SELECT rooms.id AS id, room_sizes.size, room_types.type " +
+            = "SELECT rooms.id AS id, room_sizes.size, room_types.type " +
             "FROM rooms, room_sizes, room_types " +
             "WHERE rooms.id=? AND rooms.size_id=room_sizes.id AND rooms.type_id=room_types.id";
     private static final String ID_COLUMN = "id";
@@ -48,7 +47,7 @@ public class RoomDao extends CommonDao<Room> {
     private static final String TYPE_COLUMN = "type";
 
 
-    Logger logger = LoggerFactory.getLogger(RoomDao.class);
+    Logger logger = LogManager.getLogger(RoomDao.class);
 
     private Room readRoom(ResultSet rs) throws SQLException {
         return new Room(rs.getInt(ID_COLUMN),
@@ -133,11 +132,6 @@ public class RoomDao extends CommonDao<Room> {
 
     @Override
     public boolean delete(long id) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Room entity) {
         return false;
     }
 

@@ -6,10 +6,6 @@ import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;
 import com.epam.jwd.hotel_booking.command.Vars;
 import com.epam.jwd.hotel_booking.dao.impl.ClientDao;
-import com.epam.jwd.hotel_booking.model.Client;
-
-import java.util.List;
-import java.util.Optional;
 
 public enum DeleteClientCommand implements Command {
     INSTANCE;
