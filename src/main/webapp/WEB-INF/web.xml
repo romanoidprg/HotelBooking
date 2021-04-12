@@ -9,11 +9,11 @@
 
   <display-name>Archetype Created Web Application</display-name>
   <error-page>
-    <error-code>494</error-code>
+    <error-code>404</error-code>
     <location>/WEB-INF/jsp/errors/error404.jsp</location>
   </error-page>
   <error-page>
-    <error-code>590</error-code>
+    <error-code>500</error-code>
     <location>/WEB-INF/jsp/errors/error500.jsp</location>
   </error-page>
   <context-param>
