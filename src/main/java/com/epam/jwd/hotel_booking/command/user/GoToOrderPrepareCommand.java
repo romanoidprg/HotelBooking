@@ -1,7 +1,6 @@
 package com.epam.jwd.hotel_booking.command.user;
 
 import com.epam.jwd.hotel_booking.command.Command;
-import com.epam.jwd.hotel_booking.command.CommandManager;
 import com.epam.jwd.hotel_booking.command.Pages;
 import com.epam.jwd.hotel_booking.command.RequestContext;
 import com.epam.jwd.hotel_booking.command.ResponseContext;

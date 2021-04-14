@@ -9,17 +9,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public enum ConnectionPool {
     INSTANCE();
 
+    private final static String DB_NAME = "jdbc:mysql://localhost:3306/hotelbooking";
+    private final static String USER_NAME = "root";
+    private final static String USER_PASS = "romanoid";
+
     private final Logger logger = LogManager.getLogger(ConnectionPool.class);
+    private final Lock lock = new ReentrantLock();
 
     private static final int INITIAL_CONNECTIONS_AMOUNT = 8;
 
     private final ArrayBlockingQueue<ProxyConnection> connections = new ArrayBlockingQueue<>(INITIAL_CONNECTIONS_AMOUNT);
 
     public Connection retrieveConnection() {
+        lock.lock();
         try {
             if (connections.isEmpty()) {
                 addConnectionToPool();
@@ -28,10 +36,14 @@ public enum ConnectionPool {
         } catch (InterruptedException e) {
             logger.error(e.getMessage());
             throw new IllegalStateException(e);
+        } finally {
+            lock.unlock();
         }
+
     }
 
     public void returnConnection(Connection connection) {
+        lock.lock();
         try {
             if (connections.size() >= INITIAL_CONNECTIONS_AMOUNT) {
                 ((ProxyConnection) connection).closeConnection();
@@ -42,6 +54,8 @@ public enum ConnectionPool {
         } catch (SQLException | InterruptedException e) {
             logger.error(e.getMessage());
             throw new IllegalStateException();
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -50,13 +64,13 @@ public enum ConnectionPool {
         for (int i = 0; i < INITIAL_CONNECTIONS_AMOUNT; i++) {
             addConnectionToPool();
         }
-        logger.info("Connection POOL have initialized with " + String.valueOf(connections.size()) + "connections");
+        logger.info("Connection POOL have initialized with " + connections.size() + "connections");
     }
 
     private void addConnectionToPool() {
         try {
             final Connection realConnection = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/hotelbooking", "root", "romanoid");
+                    .getConnection(DB_NAME, USER_NAME, USER_PASS);
             final ProxyConnection proxyConnection = new ProxyConnection(realConnection);
             try {
                 connections.put(proxyConnection);
@@ -85,7 +99,7 @@ public enum ConnectionPool {
         logger.info("registering another drivers");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            DriverManager.registerDriver(DriverManager.getDriver("jdbc:mysql://localhost:3306/HotelBooking"));
+            DriverManager.registerDriver(DriverManager.getDriver(DB_NAME));
             logger.info("registration successful");
         } catch (SQLException | ClassNotFoundException e) {
             logger.error("registration unsuccessful: " + e.getMessage());
