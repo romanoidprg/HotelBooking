@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,16 +20,23 @@ public enum ConnectionPool {
     private final static String USER_NAME = "root";
     private final static String USER_PASS = "romanoid";
 
+    private static int openConnectionsAmount = 0;
+
     private final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private final Lock lock = new ReentrantLock();
+    private final Condition notOverFull = lock.newCondition();
 
     private static final int INITIAL_CONNECTIONS_AMOUNT = 8;
+    private static final int MAX_CONNECTIONS_AMOUNT = 30;
 
     private final ArrayBlockingQueue<ProxyConnection> connections = new ArrayBlockingQueue<>(INITIAL_CONNECTIONS_AMOUNT);
 
     public Connection retrieveConnection() {
         lock.lock();
         try {
+            while (openConnectionsAmount >= MAX_CONNECTIONS_AMOUNT) {
+                notOverFull.await();
+            }
             if (connections.isEmpty()) {
                 addConnectionToPool();
             }
@@ -47,6 +55,8 @@ public enum ConnectionPool {
         try {
             if (connections.size() >= INITIAL_CONNECTIONS_AMOUNT) {
                 ((ProxyConnection) connection).closeConnection();
+                openConnectionsAmount--;
+                notOverFull.signal();
                 logger.info("Close connection");
             } else {
                 connections.put((ProxyConnection) connection);
@@ -74,6 +84,7 @@ public enum ConnectionPool {
             final ProxyConnection proxyConnection = new ProxyConnection(realConnection);
             try {
                 connections.put(proxyConnection);
+                openConnectionsAmount++;
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
@@ -86,6 +97,7 @@ public enum ConnectionPool {
         connections.forEach(proxyConnection -> {
             try {
                 proxyConnection.closeConnection();
+                openConnectionsAmount--;
             } catch (SQLException e) {
                 logger.error(e.getMessage());
             }
