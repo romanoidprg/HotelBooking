@@ -5,6 +5,16 @@
 <head>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
     <title>My Server Page</title>
+    <script type="text/javascript">
+    <!--
+
+    function confirmMessage (){
+        return confirm('${rb['are_you_sure']}');
+    }
+
+    //-->
+    </script>
+
 </head>
 
 <body>
@@ -75,7 +85,8 @@
             </td>
             <td>|</td>
             <td align="center">
-                <form id="f22" action="${pageContext.request.contextPath}/controller" method="post">
+                <form name ="delForm" id="f22" onsubmit="return confirmMessage()"
+                      action="${pageContext.request.contextPath}/controller" method="post">
                     <input type="hidden" name="command" value="usr_delete_client"/>
                     <input type="hidden" name="id_client_to_delete" value="${ client.id }"/>
                     <input id="i1" type="submit" value="V"/>
