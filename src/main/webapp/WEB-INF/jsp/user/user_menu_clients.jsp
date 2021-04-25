@@ -4,24 +4,9 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
     <title>My Server Page</title>
 </head>
-
-<style>
-#f1 {
-    border: solid blue;
-    width: 1000px;
-    margin:auto;
-    }
-#t1 {
-    width: 500px;
-    margin:auto;
-
-}
-
-
-
-</style>
 
 <body>
 <table style="width: 100%;border-bottom: 1px solid;">

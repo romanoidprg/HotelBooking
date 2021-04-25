@@ -23,6 +23,13 @@ import java.util.Optional;
 
 public class OrderDao extends CommonDao<Order> {
 
+    private long listPage;
+    private int rowsPerPage = 10;
+
+    public int getRowsPerPage() {
+        return rowsPerPage;
+    }
+
     public static final String SQL_SET_ORDER_STATUS
             = "UPDATE orders SET status_id=? where id=?";
     public static final String SQL_CHECK_AND_SET_OUTOFDAY_STATUS
@@ -46,19 +53,21 @@ public class OrderDao extends CommonDao<Order> {
     private static final String SQL_SELECT_INSERT_ID
             = "SELECT LAST_INSERT_ID()";
     private static final String SELFROM_BLOCK
-            = "SELECT orders.id, orders.date_in, orders.date_out, statuses.status,logins.login " +
+            = " SELECT orders.id, orders.date_in, orders.date_out, statuses.status,logins.login " +
             "FROM logins, logins_users, users, users_orders, orders, statuses ";
     private static final String WHEREAND_BLOCK
-            = "WHERE logins.id=logins_users.login_id " +
+            = " WHERE logins.id=logins_users.login_id " +
             "AND logins_users.user_id=users.id " +
             "AND users.id=users_orders.user_id " +
             "AND users_orders.order_id=orders.id " +
             "AND orders.status_id=statuses.id ";
     private static final String DATES_BLOCK
-            = "AND orders.date_out>? " +
+            = " AND orders.date_out>? " +
             "AND orders.date_in<? ";
     private static final String GROUP_AND_SORT_BLOCK
-            = "GROUP BY orders.id ORDER BY orders.id ASC";
+            = " GROUP BY orders.id ORDER BY orders.id ASC";
+    private static final String LIMIT_BLOCK
+            = " LIMIT ? OFFSET ?";
     private static final String SQL_SELECT_ORDERS_BY_FILTER
             = SELFROM_BLOCK +
             WHEREAND_BLOCK +
@@ -69,7 +78,8 @@ public class OrderDao extends CommonDao<Order> {
             "AND users.sname LIKE ? " +
             "AND statuses.status LIKE ? " +
             DATES_BLOCK +
-            GROUP_AND_SORT_BLOCK;
+            GROUP_AND_SORT_BLOCK +
+            LIMIT_BLOCK;
     public static final String SQL_SELECT_BY_ID
             = SELFROM_BLOCK +
             WHEREAND_BLOCK +
@@ -83,6 +93,10 @@ public class OrderDao extends CommonDao<Order> {
     private static final String RELATED_LOGIN_COLUMN = "logins.login";
 
     Logger logger = LoggerFactory.getLogger(OrderDao.class);
+
+    public void setListPage(long listPage) {
+        this.listPage = listPage;
+    }
 
     @Override
     public Optional<List<Order>> findByPattern(String strIncl) {
@@ -160,6 +174,8 @@ public class OrderDao extends CommonDao<Order> {
             st.setString(6, p.getStatusForSQL());
             st.setDate(7, p.getDateFromForSQL());
             st.setDate(8, p.getDateBeforeForSQL());
+            st.setInt(9, rowsPerPage);
+            st.setLong(10, (listPage-1)*10);
             ResultSet rs = st.executeQuery();
             List<Order> orders = completeOrdersWithRelatedRoomsAndClients(rs);
             return Optional.of(orders);

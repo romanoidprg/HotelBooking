@@ -2,19 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <html>
-<style>
-#f1 {
-    border: solid blue;
-    width: 1000px;
-    margin:auto;
-    }
-#t1 {
-    width: 500px;
-    margin:auto;
-
-}
-
-</style>
+<head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
+    <title>My Server Page</title>
+</head>
 
 <body>
 <table id="f1">

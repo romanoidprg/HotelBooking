@@ -3,6 +3,7 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
     <title>My Server Page</title>
     <script type="text/javascript">
     <!--
@@ -21,24 +22,9 @@
     }
 
     //-->
+
     </script>
 </head>
-
-<style>
-#f1 {
-    border: solid blue;
-    width: 1000px;
-    margin:auto;
-    }
-#t1 {
-    width: 500px;
-    margin:auto;
-
-}
-
-
-
-</style>
 
 <body>
 <table style="width: 100%;border-bottom: 1px solid;">
@@ -70,7 +56,7 @@
             ${rb['user_menu_orders_show']}
             <form name="f_show_orders" onsubmit="return isDatesCorrect()"
                   action="${pageContext.request.contextPath}/controller" method="post">
-            <br>
+                <br>
                 <input type="hidden" name="command" value="all_show_orders_related_to_login">
                 <input type="hidden" name="new_orders_list" value="true"/>
 

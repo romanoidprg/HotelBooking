@@ -3,24 +3,9 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
     <title>${rb['hotel_name']}</title>
 </head>
-
-<style>
-#f1 {
-    border: solid blue;
-    width: 1000px;
-    margin:auto;
-    }
-#t1 {
-    width: 500px;
-    margin:auto;
-
-}
-
-
-
-</style>
 
 <body>
 <table style="width: 100%;border-bottom: 1px solid;">
@@ -45,6 +30,7 @@
             <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="adm_show_orders_by_filter">
                 <input type="hidden" name="new_orders_list" value="true"/>
+                <c:set  var="list_page" value="${1}" scope="session"/>
 
                 <br>
                 <table id="t1">

@@ -40,6 +40,7 @@
     }
 
     //-->
+
     </script>
 </head>
 
@@ -78,7 +79,8 @@
     </tr>
 
     <c:forEach var="order" items="${order_list}">
-        <tr name="${ order.id }" onclick="goToOrder('f'+'${ order.id }')" onmouseover="colorOver('${ order.id }')" onmouseout="colorOut('${ order.id }')">
+        <tr name="${ order.id }" onclick="goToOrder('f'+'${ order.id }')" onmouseover="colorOver('${ order.id }')"
+            onmouseout="colorOut('${ order.id }')">
             <td>
                 <c:out value="${ order.id }"/>
             </td>
@@ -100,11 +102,13 @@
             <td name="td${order.id}" align="center" style="border-left: solid black 1px;">
                 <script type="text/javascript">
                     backColor('td'+'${order.id}', '${ order.status }');
+
                 </script>
                 ${ order.status }
             </td>
             <td align="center">
-                <form id="f22" name="f${ order.id }" action="${pageContext.request.contextPath}/controller" method="post">
+                <form id="f22" name="f${ order.id }" action="${pageContext.request.contextPath}/controller"
+                      method="post">
                     <input type="hidden" name="command" value="all_show_order_detail"/>
                     <input type="hidden" name="last_command" value="all_show_orders_related_to_login"/>
                     <input type="hidden" name="date_from_for_show_orders" value="${date_from_for_show_orders}"/>
@@ -121,11 +125,28 @@
     <tr>
         <td align="center">
             <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="ALL_SHOW_ORDERS_RELATED_TO_LOGIN">
+                <input type="hidden" name="new_orders_list" value="false"/>
+                <input type="hidden" name="next_page_direction" value="backward"/>
+                <input type="submit" value="<<"/>
+            </form>
+        </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="usr_user_menu_orders"/>
                 <br>
                 <input type="submit" value="${rb['return']}"/>
             </form>
         </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="ALL_SHOW_ORDERS_RELATED_TO_LOGIN">
+                <input type="hidden" name="new_orders_list" value="false"/>
+                <input type="hidden" name="next_page_direction" value="forward"/>
+                <input type="submit" value=">>"/>
+            </form>
+        </td>
+
     </tr>
 </table>
 </body>

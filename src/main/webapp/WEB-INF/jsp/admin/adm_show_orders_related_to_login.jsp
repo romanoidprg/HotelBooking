@@ -41,6 +41,7 @@
 
     //-->
 
+
     </script>
 </head>
 
@@ -103,6 +104,7 @@
                 <script type="text/javascript">
                     backColor('td'+'${order.id}', '${ order.status }');
 
+
                 </script>
                 ${ order.status }
             </td>
@@ -123,9 +125,25 @@
     <tr>
         <td align="center">
             <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="ALL_SHOW_ORDERS_RELATED_TO_LOGIN">
+                <input type="hidden" name="new_orders_list" value="false"/>
+                <input type="hidden" name="next_page_direction" value="backward"/>
+                <input type="submit" value="<<"/>
+            </form>
+        </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="adm_admin_menu_users_showall"/>
                 <br>
                 <input type="submit" value="${rb['return']}"/>
+            </form>
+        </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="ALL_SHOW_ORDERS_RELATED_TO_LOGIN">
+                <input type="hidden" name="new_orders_list" value="false"/>
+                <input type="hidden" name="next_page_direction" value="forward"/>
+                <input type="submit" value=">>"/>
             </form>
         </td>
     </tr>

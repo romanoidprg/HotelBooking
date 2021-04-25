@@ -7,11 +7,14 @@ import com.epam.jwd.hotel_booking.command.admin.AdminMenuUsersSelectCommand;
 import com.epam.jwd.hotel_booking.command.admin.AdminMenuUsersShowAllCommand;
 import com.epam.jwd.hotel_booking.command.admin.CancelAwaitingOrderCommand;
 import com.epam.jwd.hotel_booking.command.admin.ConfirmAwaitingOrderCommand;
+import com.epam.jwd.hotel_booking.command.admin.DisplayOrdersByFilterCommand;
+import com.epam.jwd.hotel_booking.command.admin.DisplayOrdersRelatedToClientCommand;
 import com.epam.jwd.hotel_booking.command.admin.DoneActiveOrderCommand;
 import com.epam.jwd.hotel_booking.command.admin.SetLoginRoleCommand;
 import com.epam.jwd.hotel_booking.command.admin.ShowClientsRelatedToLoginCommand;
 import com.epam.jwd.hotel_booking.command.admin.ShowOrdersByFilterCommand;
 import com.epam.jwd.hotel_booking.command.admin.ShowOrdersRelatedToClientCommand;
+import com.epam.jwd.hotel_booking.command.all.DisplayOrdersRelatedToLoginCommand;
 import com.epam.jwd.hotel_booking.command.all.LangSelectCommand;
 import com.epam.jwd.hotel_booking.command.all.RedirectToCommand;
 import com.epam.jwd.hotel_booking.command.user.AddClientsToOrderCommand;
@@ -49,6 +52,7 @@ public enum CommandManager {
     ALL_DEFAULT(LangSelectCommand.INSTANCE),
     ALL_ENTER_IF_SESSION(EnterIfSessionExistCommand.INSTANCE),
     ALL_SHOW_ORDERS_RELATED_TO_LOGIN(ShowOrdersRelatedToLoginCommand.INSTANCE),
+    ALL_DISPLAY_ORDERS_RELATED_TO_LOGIN(DisplayOrdersRelatedToLoginCommand.INSTANCE),
     ALL_SHOW_ORDER_DETAIL(ShowOrderDetailCommand.INSTANCE),
     ALL_MENU_INFO(MenuInfoPageCommand.INSTANCE),
     ALL_REDIRECT_TO(RedirectToCommand.INSTANCE),
@@ -62,8 +66,10 @@ public enum CommandManager {
     ADM_CANCEL_AWAITING_ORDER(CancelAwaitingOrderCommand.INSTANCE),
     ADM_ACTIVATE_CONFIRMED_ORDER(ActivateConfirmedOrderCommand.INSTANCE),
     ADM_SHOW_ORDERS_RELATED_TO_CLIENT(ShowOrdersRelatedToClientCommand.INSTANCE),
+    ADM_DISPLAY_ORDERS_RELATED_TO_CLIENT(DisplayOrdersRelatedToClientCommand.INSTANCE),
     ADM_SHOW_CLIENTS_RELATED_TO_LOGIN(ShowClientsRelatedToLoginCommand.INSTANCE),
     ADM_SHOW_ORDERS_BY_FILTER(ShowOrdersByFilterCommand.INSTANCE),
+    ADM_DISPLAY_ORDERS_BY_FILTER(DisplayOrdersByFilterCommand.INSTANCE),
     ADM_DONE_ACTIVE_ORDER(DoneActiveOrderCommand.INSTANCE),
 
     USR_USER_MENU_CLIENTS(UserMenuClientsCommand.INSTANCE),

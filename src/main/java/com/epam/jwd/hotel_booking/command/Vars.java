@@ -65,6 +65,11 @@ public enum Vars {
     LAST_COMMAND_BEFORE_ORDERS_SHOW("last_command_before_orders_show"),
     REDIRECT_COMMAND("redirect_command"),
     PAGE_TO_REDIRECT("page_to_redirect"),
+    LIST_PAGE("list_page"),
+    ORDER_SEARCH_PATTERN("order_search_pattern"),
+    NEXT_PAGE_DIRECTION("next_page_direction"),
+    FORWARD("forward"),
+    BACKWARD("backward"),
     ROOMS_ID("rooms_id");
 
 

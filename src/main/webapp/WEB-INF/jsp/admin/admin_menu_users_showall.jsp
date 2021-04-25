@@ -3,6 +3,7 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
     <title>My Server Page</title>
     <script type="text/javascript">
     <!--
@@ -23,32 +24,6 @@
     //-->
     </script>
 </head>
-
-<style>
-#f1 {
-    border: solid blue;
-    width: 1000px;
-    margin:auto;
-    }
-
-#s1 {
-font-weight: bold;
-
-    }
-#i1 {
-background-color: SeaShell;
-font-weight: bold;
-    }
-#f2 { display: inline;
-}
-#s2 { width: 100%;
-}
-
-
-
-
-
-</style>
 
 <body>
 <table style="width: 100%;border-bottom: 1px solid;">
@@ -97,7 +72,7 @@ font-weight: bold;
             </td>
             <td>|</td>
             <td align="center">
-                <form id="f2" action="${pageContext.request.contextPath}/controller" method="post">
+                <form id="f22" action="${pageContext.request.contextPath}/controller" method="post">
                     <input type="hidden" name="command" value="adm_set_login_role"/>
                     <input type="hidden" name="name_include" value="${name_include}"/>
                     <input type="hidden" name="login_id_for_set_role" value="${login.id}"/>
@@ -105,7 +80,7 @@ font-weight: bold;
                 </form>
             </td>
             <td align="center">
-                <form id="f2" name="${ login.id }"
+                <form id="f22" name="${ login.id }"
                       action="${pageContext.request.contextPath}/controller"
                       onsubmit="return isDatesCorrect(${login.id})" method="post">
                     <input type="hidden" name="command" value="all_show_orders_related_to_login"/>
@@ -117,7 +92,7 @@ font-weight: bold;
                 </form>
             </td>
             <td align="center">
-                <form id="f2" action="${pageContext.request.contextPath}/controller" method="post">
+                <form id="f22" action="${pageContext.request.contextPath}/controller" method="post">
                     <input type="hidden" name="command" value="adm_show_clients_related_to_login"/>
                     <input type="hidden" name="login_for_show_clients" value="${login.login}"/>
                     <input id="i1" type="submit" value="V"/>

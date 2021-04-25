@@ -3,6 +3,7 @@
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/style.css">
     <title>${rb['hotel_name']}</title>
     <script type="text/javascript">
     <!--
@@ -26,32 +27,6 @@
     //-->
     </script>
 </head>
-
-<style>
-#f1 {
-    border: solid blue;
-    width: 1000px;
-    margin:auto;
-    }
-
-#s1 {
-font-weight: bold;
-
-    }
-#i1 {
-background-color: SeaShell;
-font-weight: bold;
-    }
-#f2 { display: inline;
-}
-#s2 { width: 100%;
-}
-
-
-
-
-
-</style>
 
 <body>
 <table style="width: 100%;border-bottom: 1px solid;">
@@ -113,7 +88,7 @@ font-weight: bold;
             </td>
             <td name="td${client.key.id}" align="center" style="border-left: solid 1px" onclick="stopAlert()"
                 onmouseover="cursorText('td${client.key.id}')" >
-                <form id="f2" name=""
+                <form id="f22" name=""
                       action="${pageContext.request.contextPath}/controller"
                       onsubmit="return isDatesCorrect()" method="post">
                     <input type="hidden" name="command" value="adm_show_orders_related_to_client"/>

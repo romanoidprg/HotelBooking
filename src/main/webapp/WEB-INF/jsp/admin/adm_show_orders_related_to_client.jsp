@@ -125,10 +125,26 @@
     <tr>
         <td align="center">
             <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="ADM_SHOW_ORDERS_RELATED_TO_CLIENT">
+                <input type="hidden" name="new_orders_list" value="false"/>
+                <input type="hidden" name="next_page_direction" value="backward"/>
+                <input type="submit" value="<<"/>
+            </form>
+        </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="${last_command_before_orders_show}"/>
                 <input type="hidden" name="new_search_client" value="false"/>
                 <br>
                 <input type="submit" value="${rb['return']}"/>
+            </form>
+        </td>
+        <td align="center">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="ADM_SHOW_ORDERS_RELATED_TO_CLIENT">
+                <input type="hidden" name="new_orders_list" value="false"/>
+                <input type="hidden" name="next_page_direction" value="forward"/>
+                <input type="submit" value=">>"/>
             </form>
         </td>
     </tr>
