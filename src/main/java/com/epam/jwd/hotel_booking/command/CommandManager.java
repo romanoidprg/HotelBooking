@@ -22,6 +22,7 @@ import com.epam.jwd.hotel_booking.command.user.AddRoomToOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.DeleteClientCommand;
 import com.epam.jwd.hotel_booking.command.user.DeleteClientFromOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.DeleteRoomFromOrderCommand;
+import com.epam.jwd.hotel_booking.command.user.DisplayClientsCreateSuccessCommand;
 import com.epam.jwd.hotel_booking.command.user.EnterIfSessionExistCommand;
 import com.epam.jwd.hotel_booking.command.user.GoToAddClientToOrderCommand;
 import com.epam.jwd.hotel_booking.command.user.GoToOrderPrepareCommand;
@@ -74,6 +75,7 @@ public enum CommandManager {
 
     USR_USER_MENU_CLIENTS(UserMenuClientsCommand.INSTANCE),
     USR_USER_MENU_CLIENTS_CREATE(UserMenuClientsCreateCommand.INSTANCE),
+    USR_DISPLAY_CLIENTS_CREATE_SUCCESS(DisplayClientsCreateSuccessCommand.INSTANCE),
     USR_USER_MENU_SHOW_CLIENTS_LINK_TO_LOGIN(UserMenuShowClientsLinkToLoginCommand.INSTANCE),
     USR_DELETE_CLIENT(DeleteClientCommand.INSTANCE),
     USR_USER_MENU_ORDERS(UserMenuOrdersCommand.INSTANCE),
